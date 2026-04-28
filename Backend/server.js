@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 app.use(cors({
   origin: [
-    `https://frontend_gpt.vercel.app`,
+    `https://frontendgpt.vercel.app`,
     'http://localhost:5173' 
   ]
 }));
@@ -36,7 +36,18 @@ app.get("/", (req, res) => {
   res.send("Backend is live 🚀");
 });
 
-app.listen(PORT, () => {
-    console.log(`server running on ${PORT}`);
-    connectDB();
-});
+const startServer = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log("✅ Connected with database");
+
+    app.listen(PORT, () => {
+      console.log(`server running on ${PORT}`);
+    });
+
+  } catch (err) {
+    console.error("❌ DB Connection Error:", err);
+  }
+};
+
+startServer();
