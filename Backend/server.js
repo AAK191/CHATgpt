@@ -7,9 +7,16 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import mongoose from "mongoose";
 import chatRoutes from "./routes/chat.js";
 
+
 const app = express();
 const PORT = process.env.PORT || 8080;
-app.use(cors());
+app.use(cors({
+  origin: [
+    `https://frontend_gpt.vercel.app`,
+    'http://localhost:5173' 
+  ]
+}));
+
 app.use(express.json());
 
 
